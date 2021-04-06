@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TrailAPI.Models
 {
-    public class TrailModel{
+    public class CommandModel{
         [Key]
         [Required]
         public int Id { get; set; }
