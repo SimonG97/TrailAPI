@@ -11,9 +11,9 @@ namespace TrailAPI.Respository
             var commands = new List<CommandModel>
         {
             new CommandModel{
-                Id=0, HowTo="How to generate a migration",
-                CommandLine="dotnet ef migrations add <Name of Migration>",
-                Platform=".Net Core EF"
+                   Id=0, HowTo="How to generate a migration",
+                   CommandLine="dotnet ef migrations add <Name of Migration>",
+                 Platform=".Net Core EF"
                 },
                 new CommandModel
                 {
@@ -40,16 +40,20 @@ namespace TrailAPI.Respository
                 Platform = ".Net Core EF"
             };
         }
-        public void CreateCommand (CommandModel cmd){
+        public void CreateCommand(CommandModel cmd)
+        {
             throw new System.NotImplementedException();
         }
-        public void DeleteCommand (CommandModel cmd){
+        public void DeleteCommand(CommandModel cmd)
+        {
             throw new System.NotImplementedException();
         }
-        public bool SaveChanges(){
+        public bool SaveChanges()
+        {
             throw new System.NotImplementedException();
         }
-        public void UpdateCommand (CommandModel cmd){
+        public void UpdateCommand(CommandModel cmd)
+        {
             throw new System.NotImplementedException();
         }
     }
