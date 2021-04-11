@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TrailAPI.Data;
@@ -12,7 +13,10 @@ namespace TrailAPI.Respository{
         }
         public void CreateCommand(CommandModel cmd)
         {
-            throw new System.NotImplementedException();
+            if(cmd==null){
+               throw new ArgumentNullException(nameof(cmd));
+            }
+            _context.CommandItems.Add(cmd);
         }
 
         public void DeleteCommand(CommandModel cmd)
@@ -32,7 +36,7 @@ namespace TrailAPI.Respository{
 
         public bool SaveChanges()
         {
-            throw new System.NotImplementedException();
+            return (_context.SaveChanges()>=0);
         }
 
         public void UpdateCommand(CommandModel cmd)

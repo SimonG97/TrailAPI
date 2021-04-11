@@ -8,6 +8,7 @@ namespace TrailAPI.Profiles{
         public CommandsProfile()
       {
          CreateMap<CommandModel, CommandReadDto>();
+         CreateMap<CommandCreateDto,CommandModel>();
       }
 
     }

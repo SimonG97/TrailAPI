@@ -33,5 +33,16 @@ namespace TrailAPI.AddControllers
         }
         return Ok(_mapper.Map<CommandReadDto>(commandItem));
       }
+
+      [HttpPost]
+      public ActionResult <CommandReadDto> CreateCommand(CommandCreateDto createDto){
+        var commandModel = _mapper.Map<CommandModel>(createDto);
+      _commandRepo.CreateCommand(commandModel);
+      _commandRepo.SaveChanges();
+       var commandReadDto = _mapper.Map<CommandReadDto>(commandModel);
+       return CreatedAtRoute(nameof(GetCommandById),
+       new {Id = commandReadDto.Id}, commandReadDto);
+
+      }
     }
 }
