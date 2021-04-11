@@ -13,6 +13,7 @@ using TrailAPI.Respository;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
+
 namespace TrailAPI
 {
     public class Startup
@@ -38,6 +39,9 @@ namespace TrailAPI
             builder.Username= Configuration["UserID"];
             builder.Password= Configuration["password"];
             services.AddDbContext<DBContext>(options=>options.UseNpgsql(builder.ConnectionString));
+
+            //registering the automapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

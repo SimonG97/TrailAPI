@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TrailAPI.Models;
 using TrailAPI.Respository;
+using TrailAPI.Dtos;
 
 namespace TrailAPI.AddControllers
 {
@@ -10,15 +12,17 @@ namespace TrailAPI.AddControllers
     public class TrailController:ControllerBase
     {
       private readonly ICommandRepo _commandRepo;
-      public TrailController(ICommandRepo commandRepo){
+      private readonly IMapper _mapper;
+      public TrailController(ICommandRepo commandRepo, IMapper mapper){
         _commandRepo=commandRepo;
+        _mapper=mapper;
       }
 
         [HttpGet("api/trail")]
-      public ActionResult<IEnumerable<CommandModel>> GetAllCommands()
+      public ActionResult<IEnumerable<CommandReadDto>> GetAllCommands()
       {
           var commandItems= _commandRepo.GetAllCommands();
-          return Ok(commandItems);
+          return Ok(_mapper.Map<IEnumerable<CommandReadDto>>(commandItems));
       }
 
       [HttpGet("api/trail/{id}")]
@@ -27,7 +31,7 @@ namespace TrailAPI.AddControllers
         if (commandItem==null){
           return NotFound();
         }
-        return Ok(commandItem);
+        return Ok(_mapper.Map<CommandReadDto>(commandItem));
       }
     }
 }
