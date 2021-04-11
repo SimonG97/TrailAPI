@@ -5,14 +5,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TrailAPI.Data;
 using TrailAPI.Respository;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
 
 namespace TrailAPI
 {
     public class Startup
     {
+        //Implementing IConfiguration interface to gain access of appsettings.json
+        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -20,8 +30,14 @@ namespace TrailAPI
             services.AddControllers();
 
             //registering the command repository
-            services.AddScoped<ICommandRepo,CommandRepo>();
+            services.AddScoped<ICommandRepo,PostgresApiRepo>();
             
+            //registering the connection string
+            var builder= new NpgsqlConnectionStringBuilder();
+            builder.ConnectionString=Configuration.GetConnectionString("DefaultConnection");
+            builder.Username= Configuration["UserID"];
+            builder.Password= Configuration["password"];
+            services.AddDbContext<DBContext>(options=>options.UseNpgsql(builder.ConnectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
