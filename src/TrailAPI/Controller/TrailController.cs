@@ -86,7 +86,7 @@ namespace TrailAPI.AddControllers
         }
         _commandRepo.DeleteCommand(commandModelFromRepo);
         _commandRepo.SaveChanges();
-        return NoContent();
+         return NoContent();
       }
     }
 }
