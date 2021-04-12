@@ -11,17 +11,21 @@ namespace TrailAPI.Respository{
         public PostgresApiRepo(DBContext context){
            _context=context;
         }
-        public async void CreateCommand(CommandModel cmd)
+        public void CreateCommand(CommandModel cmd)
         {
             if(cmd==null){
                throw new ArgumentNullException(nameof(cmd));
             }
-           await _context.CommandItems.AddAsync(cmd);
+           _context.CommandItems.Add(cmd);
         }
 
         public void DeleteCommand(CommandModel cmd)
         {
-            throw new System.NotImplementedException();
+            if(cmd==null)
+            {
+                throw new ArgumentNullException(nameof(cmd));
+            }
+            _context.CommandItems.Remove(cmd);
         }
 
         public IEnumerable<CommandModel> GetAllCommands()
@@ -41,7 +45,7 @@ namespace TrailAPI.Respository{
 
         public void UpdateCommand(CommandModel cmd)
         {
-            throw new System.NotImplementedException();
+            //no code
         }
     }
 }

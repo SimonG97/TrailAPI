@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TrailAPI.Models;
 using TrailAPI.Respository;
 using TrailAPI.Dtos;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace TrailAPI.AddControllers
 {
@@ -53,6 +54,37 @@ namespace TrailAPI.AddControllers
         }
         _mapper.Map(commandUpdate,commandModelFromRepo);
         //_commandRepo.UpdateCommand(commandModelFromRepo);
+        _commandRepo.SaveChanges();
+        return NoContent();
+      }
+
+      [HttpPatch("api/partialUpdate/{id}")]
+      public ActionResult PartialCommandUpdate(int id, JsonPatchDocument<CommandUpdateDto> patchDoc)
+      {
+         var commandModelFromRepo= _commandRepo.GetCommandById(id);
+         if(commandModelFromRepo==null)
+         {
+             return NotFound();
+         }
+         var commandToPatch= _mapper.Map<CommandUpdateDto>(commandModelFromRepo);
+         patchDoc.ApplyTo(commandToPatch,ModelState);
+         if(!TryValidateModel(commandToPatch)){
+            return ValidationProblem(ModelState);
+         }
+         _mapper.Map(commandToPatch,commandModelFromRepo);
+         //_commandRepo.UpdateCommand(commandModelFromRepo);
+         _commandRepo.SaveChanges();
+         return NoContent();
+      }
+
+      [HttpDelete("api/delete/{id}")]
+      public ActionResult DeleteCommand(int id)
+      {
+        var commandModelFromRepo=_commandRepo.GetCommandById(id);
+        if(commandModelFromRepo==null){
+          return NotFound();
+        }
+        _commandRepo.DeleteCommand(commandModelFromRepo);
         _commandRepo.SaveChanges();
         return NoContent();
       }

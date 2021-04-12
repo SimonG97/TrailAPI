@@ -10,6 +10,7 @@ namespace TrailAPI.Profiles{
          CreateMap<CommandModel, CommandReadDto>();
          CreateMap<CommandCreateDto,CommandModel>();
          CreateMap<CommandUpdateDto,CommandModel>();
+         CreateMap<CommandModel,CommandUpdateDto>();
       }
 
     }

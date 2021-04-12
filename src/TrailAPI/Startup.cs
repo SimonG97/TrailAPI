@@ -12,7 +12,7 @@ using TrailAPI.Data;
 using TrailAPI.Respository;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
-
+using Newtonsoft.Json.Serialization;
 
 namespace TrailAPI
 {
@@ -42,6 +42,11 @@ namespace TrailAPI
 
             //registering the automapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            //registering the NewtonSoftJson
+            services.AddControllers().AddNewtonsoftJson(s =>{
+                s.SerializerSettings.ContractResolver=new CamelCasePropertyNamesContractResolver();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
