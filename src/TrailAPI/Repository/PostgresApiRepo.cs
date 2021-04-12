@@ -11,12 +11,12 @@ namespace TrailAPI.Respository{
         public PostgresApiRepo(DBContext context){
            _context=context;
         }
-        public void CreateCommand(CommandModel cmd)
+        public async void CreateCommand(CommandModel cmd)
         {
             if(cmd==null){
                throw new ArgumentNullException(nameof(cmd));
             }
-            _context.CommandItems.Add(cmd);
+           await _context.CommandItems.AddAsync(cmd);
         }
 
         public void DeleteCommand(CommandModel cmd)

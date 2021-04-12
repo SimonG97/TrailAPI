@@ -25,7 +25,7 @@ namespace TrailAPI.AddControllers
           return Ok(_mapper.Map<IEnumerable<CommandReadDto>>(commandItems));
       }
 
-      [HttpGet("api/trail/{id}")]
+      [HttpGet("api/trail/{id}", Name="GetCommandById")]
       public ActionResult<CommandModel> GetCommandById(int id){
         var commandItem= _commandRepo.GetCommandById(id);
         if (commandItem==null){
@@ -34,7 +34,7 @@ namespace TrailAPI.AddControllers
         return Ok(_mapper.Map<CommandReadDto>(commandItem));
       }
 
-      [HttpPost]
+      [HttpPost("api/Create")]
       public ActionResult <CommandReadDto> CreateCommand(CommandCreateDto createDto){
         var commandModel = _mapper.Map<CommandModel>(createDto);
       _commandRepo.CreateCommand(commandModel);
@@ -43,6 +43,18 @@ namespace TrailAPI.AddControllers
        return CreatedAtRoute(nameof(GetCommandById),
        new {Id = commandReadDto.Id}, commandReadDto);
 
+      }
+
+      [HttpPut("api/update/{id}")]
+      public ActionResult UpdateCommand(int id, CommandUpdateDto commandUpdate){
+        var commandModelFromRepo= _commandRepo.GetCommandById(id);
+        if(commandModelFromRepo==null){
+           return NotFound();
+        }
+        _mapper.Map(commandUpdate,commandModelFromRepo);
+        //_commandRepo.UpdateCommand(commandModelFromRepo);
+        _commandRepo.SaveChanges();
+        return NoContent();
       }
     }
 }
