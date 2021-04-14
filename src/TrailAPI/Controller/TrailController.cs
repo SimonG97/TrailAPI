@@ -6,7 +6,7 @@ using TrailAPI.Respository;
 using TrailAPI.Dtos;
 using Microsoft.AspNetCore.JsonPatch;
 
-namespace TrailAPI.AddControllers
+namespace TrailAPI.Controllers
 {
     
     [ApiController]
@@ -27,7 +27,7 @@ namespace TrailAPI.AddControllers
       }
 
       [HttpGet("api/trail/{id}", Name="GetCommandById")]
-      public ActionResult<CommandModel> GetCommandById(int id){
+      public ActionResult<CommandReadDto> GetCommandById(int id){
         var commandItem= _commandRepo.GetCommandById(id);
         if (commandItem==null){
           return NotFound();
